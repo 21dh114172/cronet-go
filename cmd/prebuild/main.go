@@ -2,6 +2,7 @@ package main
 
 import (
 	"archive/tar"
+	"fmt"
 	"github.com/sagernet/cronet-go/utils"
 	"io"
 	"log"
@@ -115,7 +116,7 @@ func main() {
 	output := filepath.Join("build", goos, goarch)
 	p := filepath.Join(output, "libcronet.so")
 	if !utils.FileExists(p) {
-		logger.Fatal("libcronet.so not found in '%s'", p)
+		logger.Fatal(fmt.Sprintf("libcronet.so not found in '%s'", p))
 	}
 }
 
