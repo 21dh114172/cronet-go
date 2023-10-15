@@ -70,8 +70,11 @@ func main() {
 	case "windows":
 		os.Setenv("MSYS", "winsymlinks:nativestrict")
 	case "linux":
-		appendEnv("CGO_CFLAGS", "--sysroot=$PWD/build/"+goos+"/"+goarch+"/sysroot")
-		appendEnv("CGO_LDFLAGS", "--sysroot=$PWD/build/"+goos+"/"+goarch+"/sysroot")
+		sysRoot := os.ExpandEnv("$PWD/build/" + goos + "/" + goarch + "/sysroot")
+		if common.FileExists(sysRoot) {
+			appendEnv("CGO_CFLAGS", "--sysroot="+sysRoot)
+			appendEnv("CGO_LDFLAGS", "--sysroot="+sysRoot)
+		}
 		appendEnv("CGO_CFLAGS", cflags[goos+goarch])
 		appendEnv("CGO_LDFLAGS", ldflags[goos+goarch])
 	}
