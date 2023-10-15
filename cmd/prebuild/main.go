@@ -2,20 +2,19 @@ package main
 
 import (
 	"archive/tar"
+	"github.com/sagernet/cronet-go/utils"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
 
-	"github.com/sagernet/sing-tools/extensions/log"
-	"github.com/sagernet/sing/common"
-
 	"github.com/klauspost/compress/gzip"
 )
 
-var logger = log.NewLogger("prebuild")
+var logger = log.New(os.Stderr, "prebuild", log.LstdFlags)
 
 const (
 	clangVersion = "llvmorg-15-init-11722-g3f3a235a-2"
@@ -38,11 +37,11 @@ func init() {
 }
 
 func main() {
-	if !common.FileExists("build/llvm/bin/clang") {
+	if !utils.FileExists("build/llvm/bin/clang") {
 		os.RemoveAll("build/llvm")
 		os.MkdirAll("build/llvm", 0o755)
 		clangDownload := os.ExpandEnv("https://commondatastorage.googleapis.com/chromium-browser-clang/" + clangOsString() + "/clang-" + clangVersion + ".tgz")
-		logger.Info(">> ", clangDownload)
+		logger.Println(">> ", clangDownload)
 		clangDownloadResponse, err := http.Get(clangDownload)
 		if err != nil {
 			logger.Fatal(err)
@@ -65,7 +64,7 @@ func main() {
 			if header.FileInfo().IsDir() {
 				continue
 			}
-			logger.Info(">> ", path)
+			logger.Println(">> ", path)
 			if header.Linkname != "" {
 				linkName[path] = filepath.Join(filepath.Dir(path), header.Linkname)
 				linkName[path], _ = filepath.Abs(linkName[path])
@@ -90,11 +89,11 @@ func main() {
 		var notExists, leftNotExists int
 		for {
 			for dst, src := range linkName {
-				if !common.FileExists(src) {
+				if !utils.FileExists(src) {
 					notExists++
 					continue
 				}
-				logger.Info(">> ", src, " => ", dst)
+				logger.Println(">> ", src, " => ", dst)
 				os.MkdirAll(filepath.Dir(dst), 0o755)
 				err = os.Symlink(src, dst)
 				if err != nil {
@@ -115,7 +114,7 @@ func main() {
 
 	output := filepath.Join("build", goos, goarch)
 	p := filepath.Join(output, "libcronet.so")
-	if !common.FileExists(p) {
+	if !utils.FileExists(p) {
 		logger.Fatal("libcronet.so not found in '%s'", p)
 	}
 }

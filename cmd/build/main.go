@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/sagernet/cronet-go/utils"
+	"log"
 	"os"
 	"os/exec"
 	"runtime"
@@ -8,7 +10,6 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/sagernet/sing-tools/extensions/log"
 	"github.com/sagernet/sing/common"
 )
 
@@ -29,7 +30,7 @@ func cgoLDFLAGS(goos string, goarch string, flags string) {
 	ldflags[goos+goarch] = flags
 }
 
-var logger = log.NewLogger("build")
+var logger = log.New(os.Stderr, "build", log.LstdFlags)
 
 func appendEnv(key string, value string) {
 	common.Must(os.Setenv(key, strings.TrimSpace(os.ExpandEnv("$"+key+" "+value))))
@@ -71,7 +72,7 @@ func main() {
 		os.Setenv("MSYS", "winsymlinks:nativestrict")
 	case "linux":
 		sysRoot := os.ExpandEnv("$PWD/build/" + goos + "/" + goarch + "/sysroot")
-		if common.FileExists(sysRoot) {
+		if utils.FileExists(sysRoot) {
 			appendEnv("CGO_CFLAGS", "--sysroot="+sysRoot)
 			appendEnv("CGO_LDFLAGS", "--sysroot="+sysRoot)
 		}
