@@ -38,7 +38,15 @@ func appendEnv(key string, value string) {
 
 func main() {
 	var args []string
-	args = append(args, "build")
+
+	userArgs := os.Args[1:]
+
+	if len(userArgs) > 0 && userArgs[0] == "test" {
+		args = append(args, "test")
+		userArgs = userArgs[1:]
+	} else {
+		args = append(args, "build")
+	}
 	args = append(args, "-gcflags", "-c "+strconv.Itoa(runtime.NumCPU()))
 
 	goos := os.Getenv("GOOS")
@@ -85,7 +93,7 @@ func main() {
 	os.Setenv("CGO_ENABLED", "1")
 	os.Setenv("CGO_LDFLAGS_ALLOW", ".*")
 
-	args = append(args, os.Args[1:]...)
+	args = append(args, userArgs...)
 
 	err := execve("go", args...)
 	if err != nil {
