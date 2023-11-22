@@ -135,28 +135,3 @@ func clangOsString() string {
 	}
 	return clangOs + "_" + clangArch
 }
-
-func naiveOsString() string {
-	openwrt := os.Getenv("OPENWRT")
-	if openwrt != "" {
-		return "openwrt-" + openwrt
-	}
-
-	switch goos {
-	case "windows":
-		goos = "win"
-	case "darwin":
-		goos = "mac"
-	}
-	switch goarch {
-	case "amd64":
-		goarch = "x64"
-	case "386":
-		goarch = "x86"
-	case "mipsle":
-		goarch = "mipsel"
-	case "mips64le":
-		goarch = "mips64el"
-	}
-	return goos + "-" + goarch
-}

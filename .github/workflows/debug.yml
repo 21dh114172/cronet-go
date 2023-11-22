@@ -73,17 +73,17 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           OPENWRT: ${{ matrix.openwrt }}
         run: |
-          ./gobuild -v -o naive-go ./naive
+          ./gobuild -v -o example ./example
       - name: Static Build
         env:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
           OPENWRT: ${{ matrix.openwrt }}
         run: |
-          ./gobuild -v -o naive-go -tags cronet_static -trimpath -ldflags "-s -w -buildid=" ./naive
-          ./build/llvm/bin/llvm-strip ./naive-go
+          ./gobuild -v -o example -tags cronet_static -trimpath -ldflags "-s -w -buildid=" ./example
+          ./build/llvm/bin/llvm-strip ./example
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: naive-go-${{ matrix.name }}
-          path: naive-go
+          name: example-${{ matrix.name }}
+          path: cmd/example
