@@ -104,5 +104,6 @@ func main() {
 func execve(name string, args ...string) error {
 	path, _ := exec.LookPath(name)
 	args = append([]string{path}, args...)
-	return syscall.Exec(path, args, os.Environ())
+	env := os.Environ()
+	return syscall.Exec(path, args, env)
 }
