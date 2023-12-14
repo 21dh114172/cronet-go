@@ -39,7 +39,7 @@ Finally, build the `example` program with the `build` utility:
 
 ```bash
 # dynamic linking
-$  ./gobuild -v -o example ./cmd/exmample/main.go
+$  ./gobuild -v -o example ./cmd/example/main.go
 # static linking (if enabled)
 $ ./gobuild -v -o example -tags cronet_static -trimpath -ldflags "-s -w -buildid=" ./example
 $ ./build/llvm/bin/llvm-strip ./example
