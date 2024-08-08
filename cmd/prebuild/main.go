@@ -122,7 +122,7 @@ func main() {
 	output := filepath.Join("build", goos, goarch)
 	if !common.FileExists(filepath.Join(output, "libcronet.so")) {
 		client := github.NewClient(nil)
-		packageRelease, _, err := client.Repositories.GetReleaseByTag(context.Background(), "klzgrad", "naiveproxy", "v104.0.5112.79-2")
+		packageRelease, _, err := client.Repositories.GetReleaseByTag(context.Background(), "klzgrad", "naiveproxy", "v124.0.6367.54-2")
 		if err != nil {
 			logger.Fatal(err)
 		}
