@@ -60,6 +60,7 @@ jobs:
           go-version: 1.18.1
       - name: Pre Build
         run: |
+          sudo apt install --reinstall build-essential
           go build -v -o prebuild ./cmd/prebuild
           go build -v -o gobuild ./cmd/build
       - name: Prepare toolchains
