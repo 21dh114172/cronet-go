@@ -62,6 +62,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install --reinstall build-essential
+          sudo apt-get install libc6-dev
       - name: Pre Build
         run: |
           go build -v -o prebuild ./cmd/prebuild
