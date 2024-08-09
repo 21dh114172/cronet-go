@@ -81,8 +81,8 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           OPENWRT: ${{ matrix.openwrt }}
         run: |
-          go build -v -o naive-go ./naive
-          ./gobuild -v -o naive-go ./naive
+          #go build -v -o naive-go ./naive
+          #./gobuild -v -o naive-go ./naive
       - name: Static Build
         env:
           GOOS: ${{ matrix.goos }}
