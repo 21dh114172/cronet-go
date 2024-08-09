@@ -30,7 +30,7 @@ func main() {
 		Engine: engine,
 	}
 
-	req, err := http.NewRequest("GET", "https://tls.peet.ws/api/all", nil)
+	req, err := http.NewRequest("GET", "https://www.example.com/", nil)
 	if err != nil {
 		log.Fatalln(err)
 	}
