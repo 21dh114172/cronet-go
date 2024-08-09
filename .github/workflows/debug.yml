@@ -10,7 +10,9 @@ on:
       - '!.github/workflows/debug.yml'
   pull_request:
     branches:
-      - main
+      - dev
+  release:
+    types: [published]
 
 jobs:
   setup:
